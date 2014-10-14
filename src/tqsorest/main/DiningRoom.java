@@ -55,8 +55,9 @@ public class DiningRoom {
 		return m_clients_in_progress.remove(clientToRemove);
 	}
 	
-	public boolean pickAClientFromWaitingRoom() {
-		return true;
+	public boolean pickAClientFromWaitingRoom() {		
+		m_clients_in_progress.add(m_waiting_room.serveClient());
+		return m_clients_in_progress.isEmpty();
 	}
 	
 	public boolean endAClientServiceInWaintingRoom(Client clientToEndService) {
