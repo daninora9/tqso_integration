@@ -32,10 +32,15 @@ public class Kitchen {
 		return true;
 	}
 	
-	public ArrayList<Dish> makeOrder(DishType dishType, int quantity) {
+	public ArrayList<Dish> makeOrder(DishType dishType, int quantity) throws NoIngredientsException {
 		ArrayList<Dish> dishesToReturn = new ArrayList<Dish>();
-		checkOrder(dishType);
-		dishesToReturn.add(new Dish(DishType.MEAT_WATER));
+		while(quantity>0)
+		{		
+			if(!checkOrder(dishType))
+				throw new NoIngredientsException();
+			dishesToReturn.add(new Dish(dishType));
+			--quantity;
+		}
 		return dishesToReturn;
 	}
 }

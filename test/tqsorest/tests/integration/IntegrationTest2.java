@@ -46,32 +46,34 @@ public class IntegrationTest2 {
 	}
 
 	@Test
-	public void testKitchen1() {
+	public void testKitchen1() throws NoIngredientsException {
 		exception.expect(NoIngredientsException.class);
-	    kitchen.makeOrder(DishType.MEAT_WATER, 1);
+		kitchen.makeOrder(DishType.MEAT_WATER, 1);
 	}
 	
 	@Test
-	public void testKitchen2() {
+	public void testKitchen2() throws NoIngredientsException {		
 		insertIngredientsOnKitchenStock(100);
 		ArrayList<Dish> expectedDishesOfOrder = new ArrayList<Dish>();
-		ArrayList<Dish> returnedDishesOfOrder;
 		expectedDishesOfOrder.add(new Dish(DishType.MEAT_WATER));
+		
+		insertIngredientsOnKitchenStock(100);
+		ArrayList<Dish> returnedDishesOfOrder;		
 		returnedDishesOfOrder = kitchen.makeOrder(DishType.MEAT_WATER, 1);
 		
 		EnumMap<Ingredient.IngredientType, Integer> expectedKitchenStock = new EnumMap<Ingredient.IngredientType, Integer>(Ingredient.IngredientType.class);
-		kitchen_stock.put(IngredientType.MEAT, 99);
-		kitchen_stock.put(IngredientType.FISH, 100);
-		kitchen_stock.put(IngredientType.SALT, 99);
-		kitchen_stock.put(IngredientType.OLIVE, 99);
-		kitchen_stock.put(IngredientType.PEPPER, 99);
-		kitchen_stock.put(IngredientType.GARLIC, 100);
-		kitchen_stock.put(IngredientType.WATER, 99);
-		kitchen_stock.put(IngredientType.BEER, 100);
-		kitchen_stock.put(IngredientType.COKE, 100);
+		expectedKitchenStock.put(IngredientType.MEAT, 99);
+		expectedKitchenStock.put(IngredientType.FISH, 100);
+		expectedKitchenStock.put(IngredientType.SALT, 99);
+		expectedKitchenStock.put(IngredientType.OLIVE, 99);
+		expectedKitchenStock.put(IngredientType.PEPPER, 99);
+		expectedKitchenStock.put(IngredientType.GARLIC, 100);
+		expectedKitchenStock.put(IngredientType.WATER, 99);
+		expectedKitchenStock.put(IngredientType.BEER, 100);
+		expectedKitchenStock.put(IngredientType.COKE, 100);
 		
 		EnumMap<Ingredient.IngredientType, Integer> actualKitchenStock = Kitchen.get_stock();
-		
+
 		assertArrayEquals(expectedKitchenStock.values().toArray(), actualKitchenStock.values().toArray());
 		assertArrayEquals(expectedDishesOfOrder.toArray(), returnedDishesOfOrder.toArray());
 	}

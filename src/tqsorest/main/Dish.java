@@ -2,6 +2,8 @@ package tqsorest.main;
 
 import java.util.ArrayList;
 
+import tqsorest.main.Ingredient.IngredientType;
+
 
 public class Dish {
 	// Class Members
@@ -25,7 +27,7 @@ public class Dish {
 	// Methods
 	public Dish(DishType type) {
 		m_type = type;
-		calculatePrice();
+		calculatePriceAndTakeIngredients();
 	}
 
 	public double get_price() {
@@ -44,11 +46,12 @@ public class Dish {
 		this.m_type = m_type;
 	}
 	
-	public void calculatePrice() {
+	public void calculatePriceAndTakeIngredients() {
 		boolean[] dishIngredients = menu[m_type.ordinal()];
 		for (int i=0; i<dishIngredients.length; i++) {
 			if ( dishIngredients[i] ) {
 				m_price += Ingredient.get_priceTable()[i];
+				Kitchen.get_stock().put(IngredientType.values()[i], Kitchen.get_stock().get(IngredientType.values()[i])-1);
 			}
 		}
 	}
